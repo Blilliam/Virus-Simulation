@@ -1,0 +1,17 @@
+[box] 
+width = 500
+height = 500
+
+[graph]
+width = 400
+height = 400
+
+[population]
+numOfPeople = 50
+
+[person]
+personRadius = 10
+infectionRadius = 30
+infectionThreshold = 500
+
+

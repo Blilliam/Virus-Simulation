@@ -1,19 +1,26 @@
 import math
 import random
 import pygame
+from config import Config
 
 class Person:
-    def __init__(self, game, x=0, y=0, size=10):
-        # -1: uninfected, 0: infected, 1: recovered
+    def __init__(self, game, x=0, y=0):
+        c = Config.load()
+
+        # 0: uninfected, 1: infected, -1: recovered
         self.state = 0
-        if random.random() < 0.1:
-            self.state = 1  # 10% start infected
         
-        self.size = size
+        self.size = c.get("person", "personRadius")
         self.game = game
 
+        self.infectionRadius = c.get("person", "infectionRadius")
+
+        self.currInfectionCount = 0
+
         self.infectedTime = 0
-        self.maxInfectedTime = random.randint(600, 1200)  # frames until recovery
+        self.maxInfectedTime = random.randint(900, 1200)  # frames until recovery
+
+        self.infectionThreshold = c.get("person", "infectionThreshold")
 
         self.x = x + game.x
         self.y = y + game.y
@@ -27,22 +34,20 @@ class Person:
         if self.state == 1:
             self.infectedTime += 1
 
-            if self.infectedTime >= 600:
+            if self.infectedTime >= self.maxInfectedTime:
                 self.state = -1
-
-        self.infectionRadius = self.size * 3
         
         # Random wiggle
         wiggle_angle = random.uniform(-0.2, 0.2)
-        cos_a = math.cos(wiggle_angle)
-        sin_a = math.sin(wiggle_angle)
+        cosa = math.cos(wiggle_angle)
+        sina = math.sin(wiggle_angle)
 
-        new_dx = self.dx * cos_a - self.dy * sin_a
-        new_dy = self.dx * sin_a + self.dy * cos_a
+        newDx = self.dx * cosa - self.dy * sina
+        newDy = self.dx * sina + self.dy * cosa
 
-        mag = math.hypot(new_dx, new_dy)
-        self.dx = (new_dx / mag) * self.speed
-        self.dy = (new_dy / mag) * self.speed
+        mag = math.hypot(newDx, newDy)
+        self.dx = (newDx / mag) * self.speed
+        self.dy = (newDy / mag) * self.speed
 
         # Move
         self.x += self.dx
@@ -67,7 +72,7 @@ class Person:
 
 
 # Collision function
-def circle_collision(p1, p2, radius):
+def circleCollision(p1, p2, radius):
     dx = p1.x - p2.x
     dy = p1.y - p2.y
     distance_sq = dx * dx + dy * dy
@@ -77,7 +82,7 @@ def circle_collision(p1, p2, radius):
 
 # Handle collisions and spread infection
 @staticmethod
-def handle_collisions(people):
+def handleCollisions(people):
     for i in range(len(people)):
         for j in range(len(people)):
             p1 = people[i]
@@ -105,4 +110,6 @@ def handle_collisions(people):
                     p2.y -= ny * (overlap / 2)
 
             if distance < p1.infectionRadius + p2.size and p1.state == 1 and p2.state == 0:
-                p2.state = 1
+                p2.currInfectionCount += 1 
+                if p2.currInfectionCount > p1.infectionThreshold:
+                    p2.state = 1

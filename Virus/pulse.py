@@ -2,7 +2,7 @@ import pygame
 
 class Pulse:
     def __init__(self, person):
-        self.infectionRadius = person.size * 3
+        self.infectionRadius = person.infectionRadius
         self.x = person.x
         self.y = person.y
 

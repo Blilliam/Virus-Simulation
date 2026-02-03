@@ -1,54 +1,51 @@
 import warnings
 import pygame
 from game import Game
+from box import Box
+from config import Config
 
-print("Starting My First Pygame")
-
-# Ignore Pygame warnings
 warnings.filterwarnings("ignore", category=UserWarning)
 
-# Initialize Pygame
+c = Config.load()
+
 pygame.init()
 
-# Get fullscreen size
+# Fullscreen
 info = pygame.display.Info()
 screen_width = info.current_w
 screen_height = info.current_h
-
-# Set up the window
 screen = pygame.display.set_mode((screen_width, screen_height), pygame.FULLSCREEN)
-pygame.display.set_caption("My First Pygame")
+pygame.display.set_caption("Simulation Controller")
 
-# Create a Game instance
-game = Game(400, 400, 500, 500)
-
-# Set up the clock for consistent FPS
+# Clock
 clock = pygame.time.Clock()
-FPS = 60  # target 60 frames per second
+FPS = 60
 
-# Main game loop
+# Create game
+game = Game()
+
+boxHeight = c.get("box", "height")
+boxWidth = c.get("box", "width")
+
+# Add multiple simulation boxes
+game.add_box(Box(50, 50, boxWidth, boxHeight))
+game.add_box(Box(50, 600, boxWidth, boxHeight))
+
+# Main loop
 running = True
 while running:
-    # Event handling
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:  # allow exit with ESC
-                running = False
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            running = False
 
-    # Update game objects
     game.update()
 
-    # Draw everything
-    screen.fill((0, 128, 255))  # background color
+    screen.fill((0, 128, 255))  # background
     game.draw(screen)
 
-    # Update the display
     pygame.display.flip()
-
-    # Limit the frame rate
     clock.tick(FPS)
 
-# Quit Pygame
 pygame.quit()
