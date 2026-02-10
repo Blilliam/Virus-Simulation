@@ -30,9 +30,9 @@ class Person:
         self.dx = math.cos(angle) * self.speed
         self.dy = math.sin(angle) * self.speed
 
-    def update(self):
+    def update(self, dt):
         if self.state == 1:
-            self.infectedTime += 1
+            self.infectedTime += 1 * dt
 
             if self.infectedTime >= self.maxInfectedTime:
                 self.state = -1
@@ -50,8 +50,8 @@ class Person:
         self.dy = (newDy / mag) * self.speed
 
         # Move
-        self.x += self.dx
-        self.y += self.dy
+        self.x += self.dx * dt
+        self.y += self.dy * dt
 
 
         # Boundary collision
@@ -82,7 +82,7 @@ def circleCollision(p1, p2, radius):
 
 # Handle collisions and spread infection
 @staticmethod
-def handleCollisions(people):
+def handleCollisions(people, dt):
     for i in range(len(people)):
         for j in range(len(people)):
             p1 = people[i]
@@ -110,6 +110,6 @@ def handleCollisions(people):
                     p2.y -= ny * (overlap / 2)
 
             if distance < p1.infectionRadius + p2.size and p1.state == 1 and p2.state == 0:
-                p2.currInfectionCount += 1 
+                p2.currInfectionCount += 1 * dt
                 if p2.currInfectionCount > p1.infectionThreshold:
                     p2.state = 1

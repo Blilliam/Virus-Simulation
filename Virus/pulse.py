@@ -13,7 +13,7 @@ class Pulse:
         self.growth_speed = 1
         self.growing = True
 
-    def update(self, person):
+    def update(self, person, dt):
         if person.state == 1:
             # Follow the person
             self.x = person.x
@@ -21,11 +21,11 @@ class Pulse:
 
             # Pulse logic
             if self.growing:
-                self.size += self.growth_speed
+                self.size += self.growth_speed * dt
                 if self.size >= self.max_size:
                     self.growing = False
             else:
-                self.size -= self.growth_speed
+                self.size -= self.growth_speed * dt
                 if self.size <= self.min_size:
                     self.growing = True
 

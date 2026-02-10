@@ -33,17 +33,17 @@ class Box:
 
         random.choice(self.people).state = 1  # start with one infected
 
-    def update(self):
+    def update(self, dt):
         for i in range(len(self.people)):
-            self.people[i].update()
-            self.pulses[i].update(self.people[i])
+            self.people[i].update(dt)
+            self.pulses[i].update(self.people[i], dt)
 
         self.historyTimer += 1
         if self.historyTimer % 3 == 0:
             self.updateHistory()
 
         # Handle collisions inside this box
-        person.handleCollisions(self.people)
+        person.handleCollisions(self.people, dt)
 
     def draw(self, screen):
         pygame.draw.rect(screen, "black", (self.x, self.y, self.width, self.height))
