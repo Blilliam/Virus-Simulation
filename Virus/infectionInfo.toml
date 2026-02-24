@@ -7,7 +7,6 @@ width = 400
 height = 400
 
 [population]
-numOfPeople = 50
 
 [person]
 personRadius = 10

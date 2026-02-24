@@ -18,20 +18,13 @@ screen = pygame.display.set_mode((screen_width, screen_height), pygame.FULLSCREE
 pygame.display.set_caption("Simulation Controller")
 
 # Clock
-gameSpeed = 6
+gameSpeed = 1
 
 clock = pygame.time.Clock()
 FPS = 60
 
 # Create game
 game = Game()
-
-boxHeight = c.get("box", "height")
-boxWidth = c.get("box", "width")
-
-# Add multiple simulation boxes
-game.add_box(Box(50, 50, boxWidth, boxHeight))
-game.add_box(Box(50, 600, boxWidth, boxHeight))
 
 # Main loop
 running = True

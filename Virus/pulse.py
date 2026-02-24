@@ -3,8 +3,8 @@ import pygame
 class Pulse:
     def __init__(self, person):
         self.infectionRadius = person.infectionRadius
-        self.x = person.x
-        self.y = person.y
+        self.x = person.pos.x
+        self.y = person.pos.y
 
         self.size = person.size
         self.min_size = person.size
@@ -16,8 +16,8 @@ class Pulse:
     def update(self, person, dt):
         if person.state == 1:
             # Follow the person
-            self.x = person.x
-            self.y = person.y
+            self.x = person.pos.x
+            self.y = person.pos.y
 
             # Pulse logic
             if self.growing:
