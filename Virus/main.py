@@ -18,7 +18,7 @@ screen = pygame.display.set_mode((screen_width, screen_height), pygame.FULLSCREE
 pygame.display.set_caption("Simulation Controller")
 
 # Clock
-gameSpeed = 1
+gameSpeed = 5
 
 clock = pygame.time.Clock()
 FPS = 60
@@ -30,7 +30,7 @@ game = Game()
 running = True
 while running:
     diffTime = clock.tick(FPS)/1000
-    dt = diffTime * gameSpeed * FPS
+    dt = diffTime * gameSpeed
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

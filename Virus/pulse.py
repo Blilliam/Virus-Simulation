@@ -10,7 +10,7 @@ class Pulse:
         self.min_size = person.size
         self.max_size = self.infectionRadius
 
-        self.growth_speed = 1
+        self.growth_speed = 60
         self.growing = True
 
     def update(self, person, dt):

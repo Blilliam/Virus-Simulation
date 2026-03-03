@@ -11,6 +11,6 @@ height = 400
 [person]
 personRadius = 10
 infectionRadius = 30
-infectionThreshold = 100
+infectionThreshold = 0.2
 
 

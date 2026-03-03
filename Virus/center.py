@@ -6,8 +6,8 @@ class Center:
         self.x = x
         self.y = y
 
-        self.w = w
-        self.h = h
+        self.width = w
+        self.height = h
 
     def draw(self, screen):
-        pygame.draw.rect(screen, (100, 100, 100), (self.x, self.y, self.w, self.h))
+        pygame.draw.rect(screen, (100, 100, 100), (self.x, self.y, self.width, self.height))

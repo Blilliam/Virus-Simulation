@@ -21,7 +21,7 @@ class Game:
         self.add_box(Box(50, 50, boxWidth, boxHeight, self))
         self.add_box(Box(50, 600, boxWidth, boxHeight, self))
 
-        self.center = Center(500, 100, 100, 100)
+        self.center = Center(800, 400, 100, 100)
 
         self.history = []
 
@@ -58,6 +58,8 @@ class Game:
 
 
     def draw(self, screen):
+        self.center.draw(screen)
+
         for box in self.simulation_boxes:
             box.draw(screen)
 
@@ -66,8 +68,6 @@ class Game:
             self.pulses[i].draw(self.people[i], screen)
 
         self.graph.draw(screen)
-
-        self.center.draw(screen)
 
 
 
